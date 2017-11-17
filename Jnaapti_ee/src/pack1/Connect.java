@@ -1,0 +1,40 @@
+package pack1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Connect {
+	public static final String dbName = "TASK_KANDARP";
+	public static final String URL = "jdbc:mysql://localhost:3306/";
+	public static final String USER = "root";
+	public static final String PASSWORD = "kandarp";
+	private static Connect instance = new Connect();
+	public static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
+	
+	private Connect() {
+		try {
+			Class.forName(DRIVER_CLASS);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.out.println(e.toString());
+			System.out.print("Error while connecting");
+		}
+	}
+	
+	private Connection createConnection() {
+
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection(URL, USER, PASSWORD);
+		} catch (SQLException e) {
+			System.out.println("ERROR: Unable to Connect to Database.");
+			System.out.println(e.toString());
+		}
+		return connection;
+	}	
+	
+	public static Connection getConnection() {
+		return instance.createConnection();
+	}
+}
